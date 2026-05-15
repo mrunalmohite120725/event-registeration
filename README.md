@@ -1,83 +1,195 @@
-# Minimal MERN Event Registration System
+CC-15 Online Event Registration System (Full Stack MERN) — Complete Steps
+1. Launch EC2 Instance
+Open AWS EC2
+Launch Ubuntu instance
+Create/select key pair
+Launch instance
+2. Configure Security Group
 
-A simple, minimalist full-stack web application built using the MERN stack (MongoDB, Express.js, React.js, Node.js). This project allows users to register for an event, storing the data securely in a local MongoDB database.
+Go to:
 
-## 🛠️ Tech Stack
-- **Frontend**: React.js, functional components, Hooks (useState, fetch API), simple CSS
-- **Backend**: Node.js, Express.js
-- **Database**: Local MongoDB (`mongodb://127.0.0.1:27017/eventDB`)
+EC2 → Security Groups → Edit inbound rules
 
-## 📁 Project Structure
-```text
-event-registration/
-├── backend/
-│   ├── server.js               # Express server entry point
-│   ├── models/
-│   │   └── Registration.js     # Mongoose schema
-│   ├── routes/
-│   │   └── registerRoute.js    # API route handler
-│   └── package.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── App.js              # Main React component
-│   │   ├── index.js            # React root
-│   │   └── index.css           # Minimal styles
-│   ├── public/
-│   │   └── index.html
-│   └── package.json
-```
+Add:
 
-## 🚀 Step-by-Step Setup Instructions
+Type	Port
+SSH	22
+Custom TCP	3000
+Custom TCP	5000
+Custom TCP	5173
 
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) and a local instance of [MongoDB](https://www.mongodb.com/try/download/community) installed and running.
+Source for all:
 
-### 1. Backend Setup
+0.0.0.0/0
 
-1. Open a terminal and navigate to the `backend` folder.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-   *(This installs `express`, `mongoose`, and `cors`)*
-3. Start the backend server:
-   ```bash
-   npm start
-   ```
-   or for development mode (auto-restart):
-   ```bash
-   npm run dev
-   ```
-   **Expected output:**
-   ```
-   ✅ Connected to MongoDB (eventDB)
-   🚀 Server running at http://localhost:5000
-   ```
+Save rules.
 
-### 2. Frontend Setup
+3. Connect to EC2
 
-1. Open a new terminal and navigate to the `frontend` folder.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-   *(This installs React, ReactDOM, and React Scripts)*
-3. Start the React development server:
-   ```bash
-   npm start
-   ```
-   The application will automatically open in your browser at `http://localhost:3000`.
+Click:
 
-## ⚙️ How it Works
+Connect → EC2 Instance Connect → Connect
+4. Install Node.js
 
-1. The frontend (`App.js`) captures the user's Full Name, Email, Phone, and Event Name.
-2. On submit, it sends a `POST` request to `http://localhost:5000/register` using the `fetch` API.
-3. The backend (`registerRoute.js`) validates the incoming data.
-4. If valid, it saves the data into the local MongoDB instance using the Mongoose model (`Registration.js`).
-5. A success response is sent back to the frontend, which clears the form and shows a success message.
+Run:
 
-## 🗄️ Database Details
-- **Database Name**: `eventDB`
-- **Collection Name**: `registrations`
-- **Connection String**: `mongodb://127.0.0.1:27017/eventDB`
+sudo apt update
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+Check version:
+
+node -v
+npm -v
+5. Install Git
+sudo apt install git -y
+6. Install MongoDB
+sudo apt install mongodb -y
+sudo systemctl start mongodb
+sudo systemctl enable mongodb
+
+Check:
+
+sudo systemctl status mongodb
+7. Clone GitHub Repository
+git clone YOUR_GITHUB_LINK
+
+Example:
+
+git clone https://github.com/username/register.git
+
+Go inside project:
+
+cd register
+
+Check folders:
+
+ls
+
+You will see:
+
+backend
+frontend
+8. Run Backend
+
+Go to backend:
+
+cd backend
+
+Install packages:
+
+npm install
+
+Run backend:
+
+node server.js
+
+You should see:
+
+Server running on port 5000
+MongoDB Connected
+
+KEEP THIS TERMINAL RUNNING.
+
+9. Open New Terminal Tab
+
+Again connect EC2 instance.
+
+Go to frontend:
+
+cd register/frontend
+
+Install packages:
+
+npm install
+10. Change API URL
+
+Go to src folder:
+
+cd src
+
+Open file:
+
+nano App.jsx
+
+OR
+
+nano App.js
+
+Find:
+
+http://localhost:5000
+
+Replace with:
+
+http://YOUR_PUBLIC_IP:5000
+
+Example:
+
+http://34.228.82.242:5000
+
+Save:
+
+CTRL + O
+Enter
+CTRL + X
+11. Start Frontend
+
+Go back:
+
+cd ..
+
+Run frontend:
+
+npm run dev -- --host
+
+You will see:
+
+VITE ready
+
+and port like:
+
+5173
+12. Open Website
+
+Open browser:
+
+http://YOUR_PUBLIC_IP:5173
+
+Example:
+
+http://34.228.82.242:5173
+
+Your Event Registration website will open ✅
+
+Final Running Commands
+Backend Terminal
+cd register/backend
+node server.js
+Frontend Terminal
+cd register/frontend
+npm run dev -- --host
+Viva Questions Answers
+Why backend and frontend use different ports?
+
+Frontend and backend are separate services:
+
+Frontend → React/Vite UI
+Backend → Node/Express API
+
+So they run on different ports.
+
+Example:
+
+Service	Port
+Frontend	5173
+Backend	5000
+Why use --host?
+
+It allows EC2 public IP access from browser.
+
+Without it:
+
+localhost only
+
+works.
